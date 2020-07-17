@@ -1,0 +1,18 @@
+<section class='app-main container'>
+    <header class='app-header clearfix'>
+        <nav class='app-nav float-left'>
+            <ul class='navigation'>
+                <li class='nav-item'>
+                    <a [routerLink]="['/tasks']" [routerLinkActive]="['is-active']" class='nav-link'>Tasks</a>
+                </li>
+                <li class='nav-item'>
+                    <a [routerLink]="['/completed']" [routerLinkActive]="['is-active']" class='nav-link'>Completed</a>
+                </li>
+                <li class='nav-item'>
+                    <a [routerLink]="['/deleted']" [routerLinkActive]="['is-active']" class='nav-link'>Deleted</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <router-outlet></router-outlet>
+</section>

@@ -1,0 +1,27 @@
+@import "./shared/variables.scss";
+.app-main {
+    position: relative;
+    margin-top: 50px;
+    .app-header {
+        .app-nav {
+            .navigation {
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+                .nav-item {
+                    display: inline-block;
+                    cursor: pointer !important;
+                    .nav-link {
+                        color: $grey;
+                        text-decoration: none;
+                        display: block;
+                        &.is-active {
+                            border-bottom: 2px solid $lightblue;
+                            color: $lightblue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

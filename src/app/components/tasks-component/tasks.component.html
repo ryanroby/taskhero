@@ -1,0 +1,157 @@
+<section class='tasks-section'>
+    <button type='button' class='add-section btn btn-sm btn-outline-secondary' (click)='NewSection = !NewSection'>Add Section</button>
+    <div class='new-section' *ngIf='NewSection'>
+        <div class="form-group form-group-sm">
+            <input type="text" class='form-control' name='NewSectionTitle' placeholder='New Section' (keydown.enter)="SaveNewSection($event); NewSectionTitle = ''" [(ngModel)]="NewSectionTitle">
+        </div>
+    </div>
+    <div class="clearfix">
+        <div class="form-group float-left filter-search">
+            <input type='text' class='form-control form-control-sm' placeholder='Filter...' name='Filter' [(ngModel)]='SearchFilter'>
+        </div>
+    </div>
+    <div class="list-section task-list-section">
+        <div class='active-sections' dragula='SECTIONS' [(dragulaModel)]="Sections" (dragulaModelChange)="Sections = $event">
+            <div class='section' *ngFor='let section of Sections | filter: SearchFilter'>
+                <div class='group-handle'>
+                    <div class="clearfix section-title" (click)="section.Expanded = !section.Expanded">
+                        <i class='fa float-left' [ngClass]="section.Expanded ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                        <h6 class='float-left ml-4'>{{section.name}}</h6>
+                        <span class="badge badge-secondary float-left ml-2" *ngIf='!section.Expanded'>{{section.tasks.length}}</span>
+                        <i class='remove-section fa fa-trash float-right' (click)='OpenConfirmSectionRemoveModal(section)'></i>
+                    </div>
+                    <div class="section-tasks" *ngIf='section.Expanded' dragula='TASKS' [(dragulaModel)]="section.tasks" (dragulaModelChange)="section.tasks = $event">
+                        <div class="active-tasks clearfix" *ngFor='let task of section.tasks | filter: SearchFilter'>
+                            <div class="round float-left">
+                                <input type="checkbox" id="{{task.id}}" (change)='OpenConfirmTaskCompleteModal(task)' />
+                                <label for="{{task.id}}"></label>
+                            </div>
+                            <i class='fa fa-trash float-right' (click)='OpenConfirmTaskRemoveModal(task)'></i>
+                            <p class='float-left ml-4 mb-0 task-name'>{{task.name}}</p>
+                        </div>
+                        <div class="add-task clearfix">
+                            <div class="form-group form-group-sm float-right new-item-input-group">
+                                <input type="text" class='form-control-sm item-input form-control' name='{{section.id}}' placeholder='Add Task...' (keydown.enter)="SaveNewTask($event, section); section.NewTaskName = ''" [(ngModel)]="section.NewTaskName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class='empty-list clearfix' *ngIf='ShowEmptyList'>
+    <div class='img float-left'>
+        <svg width="319" height="306" viewBox="0 0 319 306" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0)">
+    <path d="M264.495 173.668C224.226 234.641 205.286 306 132.247 306C59.2092 306 0 246.753 0 173.668C0 100.583 65.9966 72.1028 132.247 41.3357C347.434 -58.5976 354.6 37.2374 264.495 173.668Z" fill="#3F3D56"/>
+    <path d="M250.297 60.0084C263.963 60.0084 275.042 48.9222 275.042 35.2468C275.042 21.5714 263.963 10.4853 250.297 10.4853C236.63 10.4853 225.551 21.5714 225.551 35.2468C225.551 48.9222 236.63 60.0084 250.297 60.0084Z" fill="#E6E6E6"/>
+    <path d="M247.863 21.0394C249.431 21.0394 250.702 19.7672 250.702 18.1979C250.702 16.6286 249.431 15.3564 247.863 15.3564C246.294 15.3564 245.023 16.6286 245.023 18.1979C245.023 19.7672 246.294 21.0394 247.863 21.0394Z" fill="#CBCBCB"/>
+    <path d="M252.731 49.4543C254.299 49.4543 255.57 48.1821 255.57 46.6128C255.57 45.0435 254.299 43.7713 252.731 43.7713C251.162 43.7713 249.891 45.0435 249.891 46.6128C249.891 48.1821 251.162 49.4543 252.731 49.4543Z" fill="#CBCBCB"/>
+    <path d="M263.684 32.8113C264.804 32.8113 265.712 31.9026 265.712 30.7816C265.712 29.6607 264.804 28.752 263.684 28.752C262.563 28.752 261.655 29.6607 261.655 30.7816C261.655 31.9026 262.563 32.8113 263.684 32.8113Z" fill="#CBCBCB"/>
+    <path d="M240.561 43.7713C244.145 43.7713 247.051 40.8635 247.051 37.2765C247.051 33.6895 244.145 30.7816 240.561 30.7816C236.976 30.7816 234.07 33.6895 234.07 37.2765C234.07 40.8635 236.976 43.7713 240.561 43.7713Z" fill="#CBCBCB"/>
+    <path d="M165.107 77.4632C167.347 77.4632 169.163 75.6458 169.163 73.4039C169.163 71.1621 167.347 69.3447 165.107 69.3447C162.866 69.3447 161.05 71.1621 161.05 73.4039C161.05 75.6458 162.866 77.4632 165.107 77.4632Z" fill="#6C63FF"/>
+    <path d="M273.825 88.0173C276.066 88.0173 277.882 86.1999 277.882 83.958C277.882 81.7162 276.066 79.8988 273.825 79.8988C271.585 79.8988 269.769 81.7162 269.769 83.958C269.769 86.1999 271.585 88.0173 273.825 88.0173Z" fill="#6C63FF"/>
+    <path d="M225.551 94.1062C226.895 94.1062 227.985 93.0158 227.985 91.6707C227.985 90.3255 226.895 89.2351 225.551 89.2351C224.207 89.2351 223.117 90.3255 223.117 91.6707C223.117 93.0158 224.207 94.1062 225.551 94.1062Z" fill="#E6E6E6"/>
+    <path d="M38.1327 170.826C39.477 170.826 40.5667 169.736 40.5667 168.391C40.5667 167.046 39.477 165.955 38.1327 165.955C36.7884 165.955 35.6987 167.046 35.6987 168.391C35.6987 169.736 36.7884 170.826 38.1327 170.826Z" fill="#E6E6E6"/>
+    <path d="M182.145 236.181C183.489 236.181 184.579 235.09 184.579 233.745C184.579 232.4 183.489 231.309 182.145 231.309C180.8 231.309 179.711 232.4 179.711 233.745C179.711 235.09 180.8 236.181 182.145 236.181Z" fill="#E6E6E6"/>
+    <path d="M220.278 163.94L219.063 165.148L217.856 163.932L217.047 164.737L218.253 165.953L217.038 167.16L217.843 167.97L219.058 166.763L220.264 167.979L221.074 167.174L219.867 165.958L221.082 164.751L220.278 163.94Z" fill="#6C63FF"/>
+    <path d="M59.2281 203.721L58.0131 204.928L56.8067 203.713L55.9966 204.518L57.2034 205.733L55.9884 206.941L56.7929 207.751L58.0075 206.544L59.2143 207.759L60.0244 206.954L58.8176 205.739L60.0326 204.531L59.2281 203.721Z" fill="#E6E6E6"/>
+    <path d="M68.9641 133.09L67.7491 134.297L66.5427 133.082L65.7326 133.886L66.9394 135.102L65.7244 136.31L66.5289 137.12L67.7435 135.913L68.9503 137.128L69.7604 136.323L68.5536 135.108L69.7686 133.9L68.9641 133.09Z" fill="#E6E6E6"/>
+    <path d="M281.128 57.9934L279.913 59.2005L278.707 57.9851L277.896 58.7898L279.103 60.0056L277.888 61.2131L278.693 62.0234L279.908 60.8162L281.114 62.0316L281.924 61.2269L280.717 60.0112L281.932 58.8036L281.128 57.9934Z" fill="#E6E6E6"/>
+    <path d="M185.391 91.6852L184.176 92.8927L182.969 91.6769L182.159 92.482L183.366 93.6973L182.151 94.9049L182.955 95.7155L184.17 94.508L185.377 95.7237L186.187 94.9187L184.98 93.703L186.195 92.4958L185.391 91.6852Z" fill="#E6E6E6"/>
+    <path opacity="0.8" d="M193.816 151.875L206.142 137.435L218.468 122.996L225.426 114.845C225.811 114.394 225.217 113.691 224.832 114.142L212.506 128.581L200.18 143.02L193.222 151.171C192.837 151.622 193.431 152.326 193.816 151.875Z" fill="url(#paint0_linear)"/>
+    <path opacity="0.8" d="M171.91 203.833L184.236 189.394L196.562 174.955L203.52 166.804C203.905 166.353 203.311 165.649 202.926 166.1L190.6 180.539L178.274 194.979L171.316 203.13C170.931 203.581 171.525 204.284 171.91 203.833Z" fill="url(#paint1_linear)"/>
+    <path d="M109.733 123.942H132.856V133.046C132.856 134.615 132.233 136.12 131.125 137.229C130.016 138.338 128.513 138.961 126.945 138.961H115.644C114.076 138.961 112.573 138.338 111.464 137.229C110.356 136.12 109.733 134.615 109.733 133.046V123.942H109.733Z" fill="#2F2E41"/>
+    <path d="M140.564 244.908C135.298 250.246 130.024 250.282 124.743 245.08L120.686 209.186L117.846 245.155C112.568 249.43 107.649 250.005 103.242 245.314C99.0382 214.237 96.7531 185.366 100.403 163.317L92.695 132.06L110.139 123.942C113.651 132.637 108.111 137.084 120.639 136.935C133.057 136.787 132.13 132.113 131.639 123.942L147.686 130.118C149.052 130.644 150.167 131.671 150.802 132.991C151.438 134.311 151.546 135.824 151.105 137.221L142.998 162.911C146.119 175.879 142.914 211.953 140.564 244.908Z" fill="#E6E6E6"/>
+    <path d="M116.224 276.164C116.224 276.164 103.273 277.299 101.539 276.585C101.429 276.54 101.323 276.49 101.219 276.437C98.6408 275.12 98.5623 271.431 100.972 269.826L106.082 266.422L101.62 242.472L118.86 242.675L116.224 276.164Z" fill="#2F2E41"/>
+    <path d="M125.96 276.367C125.96 276.367 138.91 277.502 140.645 276.788C140.754 276.743 140.861 276.693 140.964 276.64C143.542 275.323 143.621 271.634 141.211 270.029L136.101 266.625L142.389 242.675H124.337L125.96 276.367Z" fill="#2F2E41"/>
+    <path d="M95.5346 190.92L98.1016 201.194C98.4171 202.457 98.3268 203.787 97.8435 204.996C97.3602 206.204 96.5086 207.23 95.4096 207.926C94.5216 208.489 93.5049 208.816 92.4556 208.877C91.4062 208.937 90.3587 208.729 89.4119 208.273C88.4651 207.816 87.6502 207.125 87.0441 206.266C86.438 205.407 86.0607 204.407 85.9477 203.361L85.3929 198.226L83.3646 149.425C83.3646 145.366 84.5671 141.398 86.8201 138.023C89.0731 134.648 92.2755 132.017 96.0225 130.462L99.997 128.813L95.5346 190.92Z" fill="#E6E6E6"/>
+    <path d="M160.036 149.02L160.023 149.308L158.385 188.699L158.068 196.31L158.007 197.821L157.452 202.955C157.36 203.799 157.097 204.616 156.677 205.353C156.257 206.091 155.691 206.735 155.012 207.244C154.333 207.753 153.557 208.117 152.732 208.314C151.906 208.51 151.05 208.535 150.214 208.386C149.379 208.237 148.584 207.918 147.877 207.448C147.17 206.978 146.568 206.368 146.107 205.656C145.645 204.943 145.336 204.143 145.197 203.306C145.057 202.468 145.092 201.611 145.298 200.788L147.866 190.514L147.809 189.751L147.468 184.977L143.403 128.407L147.379 130.055C151.124 131.613 154.324 134.246 156.576 137.621C158.828 140.995 160.032 144.962 160.036 149.02Z" fill="#E6E6E6"/>
+    <path d="M122.331 193.846C107.595 193.846 98.5054 188.733 98.3769 188.659L98.7823 187.955C98.9634 188.06 117.194 198.293 143.978 189.423L144.233 190.194C137.175 192.578 129.78 193.811 122.331 193.846Z" fill="#2F2E41"/>
+    <path d="M107.739 231.271C104.497 223.97 104.48 192.235 104.481 190.888L105.292 190.888C105.292 191.217 105.307 223.797 108.481 230.942L107.739 231.271Z" fill="#2F2E41"/>
+    <path d="M109.426 231.599C106.538 231.599 104.618 230.983 103.367 230.277C101.089 228.992 100.619 227.24 100.6 227.166L101.386 226.965L100.993 227.065L101.385 226.963C101.402 227.024 101.812 228.483 103.801 229.59C105.992 230.809 110.401 231.719 118.964 229.128L119.198 229.905C115.101 231.145 111.906 231.599 109.426 231.599Z" fill="#2F2E41"/>
+    <path d="M102.18 127.815L101.37 127.854L104.481 191.434L105.292 191.394L102.18 127.815Z" fill="#2F2E41"/>
+    <path d="M135.255 231.271L134.514 230.942C137.687 223.797 137.703 191.217 137.702 190.888L138.514 190.888C138.514 192.235 138.498 223.97 135.255 231.271Z" fill="#2F2E41"/>
+    <path d="M133.568 231.599C131.088 231.599 127.895 231.145 123.796 229.905L124.031 229.128C132.593 231.719 137.002 230.81 139.193 229.59C141.183 228.483 141.593 227.024 141.609 226.963L142.395 227.166C142.376 227.24 141.906 228.992 139.628 230.277C138.376 230.983 136.456 231.599 133.568 231.599Z" fill="#2F2E41"/>
+    <path d="M140.811 127.814L137.706 191.394L138.516 191.434L141.622 127.854L140.811 127.814Z" fill="#2F2E41"/>
+    <path d="M132.807 137.338L126.771 146.268H113.789L109.449 137.338H111.356L114.601 144.644H125.554L130.828 137.338H132.807Z" fill="#6C63FF"/>
+    <path d="M147.46 141.803L147.566 142.014L147.46 142.208V141.803Z" fill="black"/>
+    <path d="M160.847 149.02L160.835 149.308L153.139 151.545L148.377 142.014L153.249 133.075C155.623 134.998 157.537 137.428 158.852 140.187C160.167 142.946 160.848 145.964 160.847 149.02Z" fill="#6C63FF"/>
+    <path d="M82.8656 149.02L82.8778 149.308L90.5733 151.545L95.3358 142.014L90.4637 133.075C88.0897 134.998 86.1753 137.428 84.8606 140.187C83.546 142.946 82.8643 145.964 82.8656 149.02Z" fill="#6C63FF"/>
+    <path d="M121.294 130.64C133.169 130.64 142.795 121.007 142.795 109.126C142.795 97.2436 133.169 87.6114 121.294 87.6114C109.42 87.6114 99.7941 97.2436 99.7941 109.126C99.7941 121.007 109.42 130.64 121.294 130.64Z" fill="#E6E6E6"/>
+    <path d="M121.294 127.798C130.032 127.798 137.115 120.71 137.115 111.967C137.115 103.224 130.032 96.1358 121.294 96.1358C112.557 96.1358 105.473 103.224 105.473 111.967C105.473 120.71 112.557 127.798 121.294 127.798Z" fill="#2F2E41"/>
+    <path d="M158.616 188.7L158.287 196.311L147.882 190.717L147.612 189.751L147.257 184.977L158.616 188.7Z" fill="#6C63FF"/>
+    <path d="M84.6098 188.7L84.956 196.311L95.8921 190.717L96.1762 189.751L96.5489 184.977L84.6098 188.7Z" fill="#6C63FF"/>
+    <path d="M126.987 146.674H113.536L106.088 131.355L105.705 125.845L106.515 125.789L106.887 131.142L114.044 145.862H126.555L135.733 132.286L137.687 126.292L138.459 126.544L136.437 132.694L126.987 146.674Z" fill="#2F2E41"/>
+    </g>
+    <defs>
+    <linearGradient id="paint0_linear" x1="193.098" y1="133.008" x2="225.551" y2="133.008" gradientUnits="userSpaceOnUse">
+    <stop stop-color="white"/>
+    <stop offset="1" stop-color="white" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="paint1_linear" x1="20658.1" y1="20525.5" x2="23475.4" y2="20525.5" gradientUnits="userSpaceOnUse">
+    <stop stop-color="white"/>
+    <stop offset="1" stop-color="white" stop-opacity="0.3"/>
+    </linearGradient>
+    <clipPath id="clip0">
+    <rect width="319" height="306" fill="white"/>
+    </clipPath>
+    </defs>
+    </svg>
+    </div>
+    <div class='message float-left' style='margin-top: 150px;'>
+        <p style='font-size: 20px; text-align: center;'>No tasks here yet. Start with creating a new section.</p>
+    </div>
+</section>
+
+<div class="modal fade" id="ConfirmSectionRemoveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Are you sure you want to remove this Section?
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" (click)='DeleteSection()'>Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ConfirmTaskRemoveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Are you sure you want to remove this Task?
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" (click)='DeleteTask()'>Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ConfirmTaskCompleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Are you sure you want to complete this Task?
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" (click)='CompleteTask()'>Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

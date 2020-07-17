@@ -1,0 +1,35 @@
+@import "../../shared/variables.scss";
+.completed-tasks {
+    .list-section {
+        margin-top: 40px;
+        .task {
+            .active-tasks {
+                padding: 10px 0;
+                transition: 0.2s ease-in-out;
+                position: relative;
+                p {
+                    border-bottom: 1px solid #ccc;
+                    padding-bottom: 5px;
+                    width: 94%;
+                    user-select: none;
+                    font-size: 14px;
+                    transition: 0.2s ease-in-out;
+                    color: grey;
+                    &:hover {
+                        border-bottom: 1px solid grey;
+                    }
+                }
+                i {
+                    color: #ccc;
+                    font-size: 18px;
+                    padding-top: 4px;
+                    cursor: pointer;
+                    transition: 0.2s ease-in-out;
+                    &:hover {
+                        color: $red;
+                    }
+                }
+            }
+        }
+    }
+}

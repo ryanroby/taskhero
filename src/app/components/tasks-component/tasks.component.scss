@@ -1,0 +1,84 @@
+@import "../../shared/variables.scss";
+.tasks-section {
+    margin-bottom: 80px;
+    .add-section {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .new-section {
+        margin-top: 40px;
+    }
+    .list-section {
+        margin-top: 20px;
+        .active-sections {
+            .section {
+                margin-top: 30px;
+                .section-title {
+                    padding-left: 5px;
+                    cursor: pointer;
+                    .remove-section {
+                        color: #ccc;
+                        font-size: 20px;
+                        transition: 0.2s ease-in-out;
+                        &:hover {
+                            color: $red;
+                        }
+                    }
+                }
+                .section-tasks {
+                    margin-top: 20px;
+                }
+                .section-tasks {
+                    .active-tasks {
+                        padding: 10px 0;
+                        position: relative;
+                        p {
+                            border-bottom: 1px solid #ccc;
+                            padding-bottom: 5px;
+                            width: 94%;
+                            user-select: none;
+                            font-size: 14px;
+                            transition: 0.2s ease-in-out;
+                            color: grey;
+                            &:hover {
+                                border-bottom: 1px solid grey;
+                            }
+                        }
+                        i {
+                            color: #ccc;
+                            font-size: 18px;
+                            padding-top: 4px;
+                            cursor: pointer;
+                            transition: 0.2s ease-in-out;
+                            &:hover {
+                                color: $red;
+                            }
+                        }
+                    }
+                    .add-task {
+                        margin-top: 7px;
+                        .new-item-input-group {
+                            width: 94%;
+                            margin-right: 30px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+:host {
+    display: block;
+    box-sizing: border-box;
+}
+
+div {
+    transition: transform 200ms, opacity 200ms;
+}
+
+.dndDraggingSource {
+    opacity: 0.5;
+    transform: scale(0.98);
+}
